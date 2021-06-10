@@ -1,0 +1,57 @@
+#!/bin/bash
+
+bootdir="sector0"
+output_file="${bootdir}.zip"
+myname="make_sd"
+
+client_base="https://github.com/bkw777/dlplus/raw/master/clients"
+
+trap "echo Build failed!" EXIT
+
+if ! [ -f "${myname}" ]; then
+    echo "Error: Only run the build from the SD_builder directory!" >&2
+    exit 1
+fi
+
+if [ ${BASH_VERSINFO[0]} -lt 4 ] ; then
+    echo "Error: script requires bash 4.x or higher!" >&2
+    exit 1
+fi
+set -euo pipefail
+
+rm -rf "${bootdir}"
+mkdir "${bootdir}"
+
+echo "Retrieving client intallers..."
+for c in teeny ts-dos; do
+    for m in 100 200 NEC ; do
+        echo "  * ${c^^} ${m}"
+        curl -f -s -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
+        unix2dos -q "${bootdir}/${c^^}.${m}"
+    done
+done
+c=dskmgr
+for m in 100 200 ; do
+    echo "  * ${c^^} ${m}"
+    curl -f -s -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
+    unix2dos -q "${bootdir}/${c^^}.${m}"
+done
+
+echo "Copying bootstrap..."
+cp -f ../bootstrap/BOOT "${bootdir}/BOOT"
+unix2dos -q "${bootdir}/BOOT"
+
+echo "Copying help files..."
+mkdir "${bootdir}/help"
+for i in ../helpfiles/MAN*.DO ; do
+    cp "$i" "${bootdir}/help/"
+done
+unix2dos -q "${bootdir}"/help/MAN*.DO
+
+echo "Creating SD card zip file..."
+zip -q -r "${output_file}" "${bootdir}"
+unzip -q -t "${output_file}"
+
+rm -rf "${bootdir}"
+echo "All done!"
+trap '' EXIT
