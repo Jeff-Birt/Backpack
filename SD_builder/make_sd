@@ -8,6 +8,19 @@ client_base="https://github.com/bkw777/dlplus/raw/master/clients"
 
 trap "echo Build failed!" EXIT
 
+CURLOPTS="-f -s"
+CLEANUP=1
+VERBOSE=0
+
+while getopts "vn" opt ; do
+    case "$opt" in
+        v)      VERBOSE=1; CURLOPTS="";
+                ;;
+        n)      CLEANUP=0;
+                ;;
+    esac
+done
+
 if ! [ -f "${myname}" ]; then
     echo "Error: Only run the build from the SD_builder directory!" >&2
     exit 1
@@ -26,7 +39,7 @@ echo "Retrieving client intallers..."
 for c in teeny ts-dos; do
     for m in 100 200 NEC ; do
         echo "  * ${c^^} ${m}"
-        curl -f -s -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
+        curl $CURLOPTS -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
         unix2dos -q "${bootdir}/${c^^}.${m}"
     done
 done
@@ -52,6 +65,8 @@ echo "Creating SD card zip file..."
 zip -q -r "${output_file}" "${bootdir}"
 unzip -q -t "${output_file}"
 
-rm -rf "${bootdir}"
+if [ $CLEANUP -eq 1 ] ; then
+    rm -rf "${bootdir}"
+fi
 echo "All done!"
 trap '' EXIT
