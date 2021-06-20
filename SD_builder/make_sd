@@ -4,7 +4,7 @@ bootdir="sector0"
 output_file="${bootdir}.zip"
 myname="make_sd"
 
-client_base="https://github.com/bkw777/dlplus/raw/master/clients"
+client_base="https://raw.githubusercontent.com/bkw777/dlplus/master/clients"
 
 trap "echo Build failed!" EXIT
 
@@ -39,14 +39,15 @@ echo "Retrieving client intallers..."
 for c in teeny ts-dos; do
     for m in 100 200 NEC ; do
         echo "  * ${c^^} ${m}"
-        curl $CURLOPTS -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
+        curl $CURLOPTS -S -L -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
         unix2dos -q "${bootdir}/${c^^}.${m}"
+        grep -q 'PEEK' "${bootdir}/${c^^}.${m}"
     done
 done
 c=dskmgr
 for m in 100 200 ; do
     echo "  * ${c^^} ${m}"
-    curl -f -s -S -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
+    curl $CURLOPTS -S -L -o "${bootdir}/${c^^}.${m}" "${client_base}/${c}/${c^^}.${m}"
     unix2dos -q "${bootdir}/${c^^}.${m}"
 done
 
