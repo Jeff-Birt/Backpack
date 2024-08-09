@@ -1,0 +1,5 @@
+The installer will take a few minutes to run.
+Answer the user config questions.
+Then type:
+	NEW
+And exit BASIC

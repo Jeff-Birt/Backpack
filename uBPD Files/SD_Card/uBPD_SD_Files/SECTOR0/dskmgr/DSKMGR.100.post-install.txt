@@ -1,0 +1,15 @@
+The installer will take several seconds to run.
+The top-left of the BASIC screen will show "PC = #####" progress.
+Answer the user config questions.
+  Self-Clearing? Y
+  Sound? Y or N
+  High-Speed? Y
+Then type:
+	NEW
+	LOAD "DRIVER.DO"
+	SAVE "DSKMGR"
+	KILL "DRIVER.DO"
+	NEW
+And exit BASIC
+
+To run DSKMGR, select DSKMGR.BA from the main menu, not DSKMGR.CO

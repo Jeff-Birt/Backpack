@@ -1,0 +1,238 @@
+
+
+
+          DSKMGR - A Enhanced Disk Manager for the Portable Disk Drive
+
+
+     DSKMGR.CO  is  a  machine-language  program   which  provides  routine
+     disk/file  management  capabilities for the Model 100 and the Portable
+     Disk Drive 1. The program resides between 60700-62800 during operation
+     and  executes  at 60700.  The area between 62800 and MAXRAM (62960) is
+     used by the program for buffers and temporary storage.
+
+     DSKMGR is designed for users keeping a copy in low memory and LOADMing
+     for actual use only. As a result, DSKMGR CLEARs the area between HIMEM
+     and MAXRAM on exit to the Model 100's Main Menu.  [ A modification  to
+     disable this capability can be selected when the .CO file is created.]
+
+     Due to the number of ROM calls used  by DSKMGR to reduce program size,
+     it is currently implemented for the  Model  100  only.  If  the  press
+     releases  can  be  believed, DSKMGR should work with the new Model 102
+     but I have not confirmed that myself.   At the  present  time,  DSKMGR
+     does  not  work  correctly  with the new TDD-2.  If enough interest is
+     expressed, DSKMGR may be updated later for the TDD-2.
+
+     DSKMGR operates much like FLOPPY.CO  (the software  provided  with the
+     drive) with the following exceptions:
+
+     1) DSKMGR  does not  contain  the  Backup  or  Rename  functions.  The
+        primary  design  consideration of DSKMGR  was  size and the limited
+        requirements for these utilities led to the decision not to include
+        them as part of the main program.
+
+     2) The program's  Menu  operates  similarly to the system's Main Menu.
+        Files are selected  for  saving  by  highlighting  with  the  arrow
+        keys/space bar and then pressing <ENTER> or F3.  One of FLOPPY.CO's
+        major  drawbacks  is  the  need  to  type in all file names with no
+        file listings to work from.
+
+     3) The List function gives the user an  opportunity at the end of each
+        screen to name a file  for loading from the disk.  Pressing <ENTER>
+        alone will continue the listing process.
+
+     4) DSKMGR  was  written  to  overcome  some  inherent  weaknesses  in
+        FLOPPY.CO,   specifically  size  and  a  lack  of   'user-friendly
+        interface'. However, new user comments  and  message threads  here
+        and elsewhere have led to two additional significant differences--
+        1)  .BA file loading by DSKMGR is compatible with SUPERA and other
+        position-dependent BASIC program files;  2) DSKMGR will not 'grab'
+        your telephone line, except upon exit to the M100 Main Menu.
+
+
+                                DSKMGR FUNCTIONS
+                                ================
+
+     [F1] List - Lists  the names and sizes of all the files on the current
+     disk. Files are listed in groups of 10 and the number of free bytes on
+     the disk is given with the last group.   The user is given a chance at
+     the end of each group to name a file for loading from disk.   Pressing
+     <ENTER> alone will continue the listing.
+
+     [F2] Load - Transfers a file  from  the  disk  to  RAM.  The  user  is
+     prompted for the file's disk name  and given an opportunity to give it
+     a different name for RAM.
+
+     DSKMGR v3.02                                                    Page 2
+
+
+     [F3] Save - Transfers  a  RAM  file  to disk.  The file is selected by
+     highlighting its name on DSKMGR's menu, using the cursor exactly as it
+     is on the Model 100's Main Menu. The user is then given  a  chance  to
+     rename the file for storage on disk. Pressing  <ENTER>  alone  at  the
+     "Name on disk:"  prompt  will cause DSKMGR to use the file's RAM name.
+     Pressing SHIFT/BREAK or CTRL-C  will  abort the  Save.  <ENTER> may be
+     used instead of F3 to activate the Save routine.
+
+     [F4] Sval - Automatically saves all visible  RAM  files to disk.   The
+     user is given a chance to rename each file just before it is saved  to
+     disk.   Pressing <ENTER> alone will cause DSKMGR to use the file's RAM
+     name.  Pressing SHIFT/BREAK or CTRL-C will abort the rest of the  Save
+     All routine.
+
+     [F5] Eras - Deletes a file from the current disk. The user is prompted
+     for the name and asked to confirm the action.
+
+     [F6] Kill - Kills the RAM file currently highlighted on DSKMGR's menu.
+     The user is asked to confirm the action before it is carried out.
+
+     [F7] Frmt - Formats  the  disk currently in the drive.   The  user  is
+     warned that any data on the disk will be lost and asked to confirm the
+     action.
+
+     [F8] Menu - Exits DSKMGR and returns to the Model 100's Main Menu.
+
+     <ENTER> - Saves the file currently  highlighted on  the  menu.  May be
+     used instead of F3.
+
+
+                            DOWNLOAD & INSTALLATION
+                            =======================
+
+     Due to the large number of questions  surrounding  the  hex-conversion
+     method  of  downloading  previous releases of DSKMGR, I have chosen to
+     make this version available as a BASIC program which will  create  the
+     .CO  program  file.  This has the added attraction of allowing certain
+     user options to be specified at the  time  DSKMGR  is  created.   This
+     change  should  alleviate  the other major source of problems -- using
+     options that were previously carried in DSKMGR.ADD.
+
+     A quick word here about downloading... I highly recommend using a file
+     transfer protocol to get DSKMGR.302 rather than a simple ASCII capture
+     download.   The Christensen protocol  (called XMODEM after the program
+     where it was first implemented) is  widely available, well-documented,
+     and  very  reliable.  DSKMGR.302  has  an  internal checksum that will
+     verify the accuracy of the .CO file.  If it reports a checksum  error,
+     DO  NOT  try  to  run  DSKMGR.CO anyway!  You will almost certainly be
+     buying your Model 100 a round-trip ticket to the frozen North and your
+     memos and spreadsheets will be the baggage that gets lost on the way.
+
+     After downloading DSKMGR.302, load it into the BASIC  interpreter  and
+     run  it.  The  addresses  where the program resides will be printed on
+     the screen as each byte is moved into place.   When the screen clears,
+     the program will ask about three optional changes that can be made.
+
+     DSKMGR v3.02                                                    Page 3
+
+
+     As written, DSKMGR is self-clearing, i.e., on exit the variable  HIMEM
+     is  reset to MAXRAM.  This frees the 2.2K of RAM used by DSKMGR during
+     execution.  As a result of limitations in the  8085  assembly-language
+     command  set,  .CO  files  in the Model 100 must be loaded to specific
+     addresses  before  execution.   Since  the  RAM  just below the system
+     variables is the last to be used for file  storage,  most  programmers
+     choose this area to assemble their programs.  This also means most .CO
+     files will conflict with each other.   By clearing 'high memory' after
+     use,  DSKMGR  insures  its code is not corrupted accidentally by other
+     programs and then executed.
+
+     Some  users  have  memory  management techniques that assume .CO files
+     will reside permanently above HIMEM.  For those users,  DSKMGR  offers
+     an option to defeat its self-clearing routine.  To do so, just respond
+     'N' when asked 'Self-clearing?'.
+
+     DSKMGR  uses  BEEPs to signal successful completion of commands and to
+     announce error reports.  If you  prefer  to  use  DSKMGR  without  the
+     BEEPs, respond 'N' when asked 'Sound?'.
+
+     Since DSKMGR was first released, other vendors have begun distributing
+     the drive as well.  One major difference between  the  TDD  and  these
+     other  drives  is  the transmission rate.  The TDD has selectable baud
+     rates and uses 19200 baud for normal transfers. Some of the others are
+     hard-wired for 9600 baud. If your drive needs the slower speed, select
+     'N' when asked 'High-Speed?'.
+
+     When  the  options are set, the program returns to the Main Menu.  Two
+     new files will be there -- DSKMGR.CO and DRIVER.DO.  The .DO file is a
+     program  line  to  be loaded into BASIC and saved as DSKMGR.BA.  After
+     creating the BASIC file, the .DO file can be deleted.   When  run, the
+     new BASIC program will automatically load and execute DSKMGR.CO.
+
+                       FINAL COMMENTS & ACKNOWLEDGEMENTS
+                       =================================
+
+     The reaction to DSKMGR over the past year has been overwhelming. There
+     have been literally hundreds of Model 100 users who have chosen to use
+     DSKMGR with their Portable Disk Drive.  To all of you who have written
+     to me with suggestions,  questions,  and words of praise, I would like
+     to say thank you.  Without your  help and encouragement,  DSKMGR would
+     never have become what it is.
+
+     However, the cost of supporting DSKMGR on-line has been enormous.  For
+     that reason,  I am asking users to make a donation.  Unlike  shareware
+     which specifies a registration fee for continued use after evaluation,
+     all I am asking is this:  If you are  using  DSKMGR,  please  consider
+     what its value is to you and then  consider  making  out a check.  The
+     level  of  support  I  can continue to give to DSKMGR as well as other
+     new program developments will depend on you.
+
+     As  with  previous versions of DSKMGR, this program is provided solely
+     for personal use by members of this online service.   Any other use or
+     distribution,  not-for-profit or otherwise,  without  prior permission
+     is prohibited.   No  warranty  exists,  expressed  or implied,  as  to
+     the  suitability  of  this  product  for  its  intended  purpose.  The
+     user assumes all risk arising from the use of DSKMGR. 
+
+     J.K. Heilman                                   CIS ID  >   71216,1375
+     4577 Southland Avenue                          DELPHI  >   JKH
+     Alexandria, Virginia  22312-1621               GENIE   >   J.K.HEILMAN
+
+     DSKMGR v3.02                                                    Page 4
+
+
+                              DSKMGR ERROR CODES
+                              ==================
+
+
+     DSKMGR uses two-letter error codes to reduce memory requirements.  The
+     following error messages are possible with DSKMGR:
+
+
+     Ok  Flashes  briefly  on  the  message  line  (Line 7)  to  indicate a 
+         function has been successfully completed. 
+
+     NR  Drive  is  not ready.  This error will be reported if the drive is 
+         not powered-up and  connected  to  the  computer  before  entering 
+         DSKMGR.  Check power switch and cable connection, then try command 
+         again. 
+
+     CM  Communications  error.  Results  from  a bad connection or similar
+         transmission problem. Check cable and try again.
+
+     AB  Command aborted.  Sent  when  BREAK or CTRL-C is pressed at a user
+         prompt.
+
+     FF  File not found.
+
+     AE  File already exists.
+
+     OM  Out of space.  Returned  when there is insufficient room to save a 
+         file to disk or load a file into RAM. 
+
+     WP  Disk is write-protected. The write-protection tab on the disk must 
+         be moved to the OFF position before data can be written to it. 
+
+     HT  Hardware  error.  This  is the one you don't want to get. Turn the 
+         drive off and on,  then try the command again.  If  the  HT  error 
+         comes up again, you got TROUBLE! 
+
+     IO  Input/Output error.  This  usually  comes  up when a read/write is 
+         attempted  with  an unformatted disk.  It will also be reported if 
+         the disk has become corrupt. 
+
+     ND  No disk in drive.
+
+     BF  Bad file type.  This error prevents reading or writing a file that 
+         cannot be handled by the Model 100. 
+
+     FE  File empty.  Prevents saving a null file to disk.
+
