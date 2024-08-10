@@ -1,7 +1,7 @@
-# Backpack Plus files
+# Universal Backpack files
 
 Folders:
 Documentation - Multiple versions of the user's manual
-Firmware      - Firmware files for M100 et. al. and Epson machines, boot loader, testing info
+Firmware      - Firmware files for M100, Epson, etc., boot loader, testing info
 SD_Card       - ZIPed folders of directory structure and files or SD card
 

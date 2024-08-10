@@ -1,6 +1,6 @@
-# Documentation for Backpack Plus
+# Documentation for Universal Backpack Drive
 
-User's manuals for the Backpack Plus
+User's manuals for the Universal Backpack Drive
 
 
 
