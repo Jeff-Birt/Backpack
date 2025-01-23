@@ -1,4 +1,0 @@
-Type the following in BASIC on the portable:
-
-  RUN "COM:98N1E"
-
