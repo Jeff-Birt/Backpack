@@ -1,0 +1,9 @@
+Wait for the progress dots to finish on the portable, then type:
+
+  SAVE "TS-DOS"
+
+and press Enter.
+
+You can then exit BASIC and run TS-DOS.BA from the main menu.
+
+You can use TS-DOS to delete (F2-Kill) the TMP.DO file.

@@ -1,0 +1,149 @@
+DSKMGR.THD  --- Copyright 1987 by Phil Wheeler
+
+An original compilation of Compuserve Model 100 Forum messages for use by
+Forum members only.
+
+Recently a bug report on DSKMGR was uploaded, regarding its detection of
+defective media.  It resulted in an exchange here in the Forum -- and
+eventually, an Easyplex message from the author, J.K. Heilman, explaining
+the cause of the "bug".  That message concludes this file.
+
+Message range: 162788 to 162905
+Dates: 12/20/87 to 12/25/87 [plus EasyPlex of 1/4/88]
+
+
+Sb: #DSKMGR Bug Report
+Fm: Stan Wong 70346,1267
+To: [F] Phil Wheeler 71266,125
+
+Don't know who to send bug reports to on the DSKMGR program.  I just started
+using it and ran across a bug.  The bug appears during a format of defective
+media.  FLOPPY.CO reports an I/O error while DSKMGR appears to complete
+normally.  Copying a file to the disk seems to load a correct directory entry
+followed by the contents of the file in the remaining directory entries.
+DSKMGR v3.02 should report an error if the format process fails.
+
+
+Fm: Tony Anderson 76703,4062
+To: Stan Wong 70346,1267
+
+Bugs should be reported to the author of the program.  James Heilman, who wrote
+the program, can be reached by sending a message via EasyPlex to 71216,1375.
+
+
+Fm: Phil Wheeler 71266,125
+To: Stan Wong 70346,1267
+
+Generally, not working like FLOPPY is considered an advantage <Grin!>.  Tony's
+advice is best -- reporting it to James Heilman.  BUT -- what computer and
+which version in the DL's were you using?  And did you verify that the disk was
+truly defective as FLOPPY reported.  It is conceivable that my ASM, built by
+disassembly, missed something in the original JKH code (unlikely -- since
+bigger things would be likely to happen, but possible).
+
+
+Fm: Stan Wong 70346,1267
+To: Tony Anderson 76703,4062
+
+I will report the DSKMGR bug to James Heilman.  It's not a real biggie since
+all floppies sold have "certified and tested" on the box.  Well, so much for
+Maxell disks...  It's not as if TDD-1 uses a high density format.  The
+diskettes are supposedly single-side, double density, double-tracks 135 tpi.
+Anyone from Maxell out there?
+
+
+Fm: Stan Wong 70346,1267
+To: Phil Wheeler 71266,125
+
+     I have tested the "bad" media with FLOPPY as well.  FLOPPY reports an I/O
+error whereas DSKMGR thinks everything is hunkey-dorey.  I tried both with
+"good" media and both work fine.  I tried version 3.02 of DSKMGR, the
+relocatable version (from file DSKMGR.DOR).  It is loaded as the highest
+program in memory (with your XMDPW5 just below it).
+     I will report this to James Heilman as Tony suggested.
+
+
+Fm: Phil Wheeler 71266,125
+To: Stan Wong 70346,1267
+
+Please try DSKMGR.100 (non-relocating version, always at top of memory) and see
+if you get the same result withthe same disk.  That will tell if it is James'
+original version or just my relocating version.
+
+Need to know if it is my problem or his -- and I may look at it ether way, just
+need to know where to look!
+
+
+Fm: Stan Wong 70346,1267
+To: Phil Wheeler 71266,125
+
+   Tried the non-relocating version of DSKMGR with the same results.  FLOPPY
+reports an I/O error during a format of defective media.  DSKMGR reports normal
+completion. If a file is copied to the disk (via DSKMGR) the file name appears
+as the first directory entry. Subsequent entries have the file contents.
+   DSKMGR and FLOPPY performs as expected for "good" media. The software was
+downloaded in the last couple of week and is version 3.02.
+   Shall I report this is James Heilman?
+
+
+Fm: Phil Wheeler 71266,125
+To: Stan Wong 70346,1267
+
+Surely tell James about this.  If I get time over the holidays, I will take a
+look, dn fix the REL versions (ughh -- being 3 of them that is a big job!).
+Providing, of course, I can find the reasom for the problem.  Hmmmm... now to
+find a defective disk to use in testing!!
+
+
+Fm: Stan Wong 70346,1267
+To: Phil Wheeler 71266,125
+
+If you want the "floppy" that I used to detect the DSKMGR bug, I'll be happy to
+mail it to you if you plan to debug the program.  I'll be happy to send it to
+whomever needs it.  Also note that this problem occurs with a TDD-1.  I don't
+know what would happen with a TDD-2.
+
+
+Fm: Phil Wheeler 71266,125
+To: Stan Wong 70346,1267
+
+Hmmm..best not send it to me, then.  I don't have a TDD1 any more. JKH would,
+I'm sure.  I will look at the code first, and see if I see any clues there --
+given some time this week.  I'm still looking for the last bug in XMDPW5.200.
+And it has eluded me pretty well; small but mighty!
+
+
+Date:  04-Jan-88 07:07 PST
+From:  J.K. Heilman [71216,1375]
+Subj:  DSKMGR Question
+
+PHIL:  FYI...RESPONSE TO QUESTION FROM STAN WONG.
+
+Stan:
+
+Here's the story in a nutshell...
+
+The Format command is internal to the TDD, i.e., the Model 100 issues a single
+instruction to the drive and it executes a series of internal commands that
+does the formatting.  To check format validity, FLOPPY shifts access modes and
+performs sector write/read.  This format-validation code would have added
+significantly to DSKMGR's size and was not usable by any other segment of the
+program.  Since I/O errors are reported by the Load/Save functions, I chose
+to drop the validity check.
+
+Based on your description, I suspect that your disk has a defect that corrupts
+the first sector on the disk which is used for the file directory.  This is
+the only sector on the disk where the I/O checks are not performed.  The odds
+of that problem are very low and, frankly, I just missed it.
+
+If you're interested in more technical information on the TDD, I wrote two
+articles which appeared in the November/December 1986 issues of PICO.  You
+can get back-issue information from them at:
+
+          PICO Magazine
+          Portable Computing International
+          P.O. Box 428
+          Peterborough NH  03458-0428
+
+I hope this answers your question, if not the problem.  Thanks for the
+letter.

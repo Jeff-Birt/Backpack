@@ -1,0 +1,19 @@
+1 'DNLOAD.BA - LOAD a BASIC .DO program directly from the Backpack
+5 By - Rocket Fueled
+10 MAXFILES=2:DEFSTR A-F,Q:D="COM:98N1E"
+20 OPEN D FOR OUTPUT AS 1
+30 OPEN D FOR INPUT AS 2
+40 C=CHR$(13):Q=CHR$(34)
+50 PRINT "DO program filename to load";:INPUT F
+60 PRINT #1,C;C;C;C;
+70 A=INPUT$(1,2):PRINT A;:IF A<>"#" THEN 70
+80 A=INPUT$(1,2):PRINT A
+90 A="download "+F+C
+100 FOR I=1 TO LEN(A):PRINT #1,MID$(A,I,1);:B=INPUT$(1,2):PRINT B;:NEXT I
+110 FOR I=1 TO 3:GOSUB 200:NEXT I:PRINT ""
+120 PRINT "":PRINT "Wait up to 60 sec for the Backpack LED"
+130 PRINT "to start. When it stops blinking, press"
+140 PRINT "SHIFT-BREAK and type SAVE ";Q;LEFT$(F,LEN(F)-3);".BA";Q
+150 PRINT "LOAD ";Q;D;Q : LOAD D
+160 END
+200 A=INPUT$(1,2):PRINT A;:IF A<>C THEN 200 ELSE RETURN

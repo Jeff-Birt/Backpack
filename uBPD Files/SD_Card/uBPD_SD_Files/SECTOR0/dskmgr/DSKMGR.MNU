@@ -1,0 +1,23 @@
+
+
+A Patch for DSKMGR.CO
+---------------------
+
+Note: New version of file works with DSKMGR vers. 3.02, with 
+optional code for vers. 2.01.  Do NOT use this patch program
+with versions of DSKMGR which have been patched for PG Designs
+0MENU compatibility. (See DSKMGR.PGD).
+
+I particularly like the feel of having the <ENTER> key take me out
+of programs and back to the M100 main menu, as an alternative to
+hitting F8.  The following program will patch DSKMGR to cause <ENTER>
+ to take you from the DSKMGR.CO menu to the M100 menu:
+
+10 CLEAR 0,60700:LOADM "DSKMGR"
+20 POKE 60863,15:POKE 60864,238 'vers 3.02 
+30 ' <or> POKE 60875,24:POKE 60876,128 'vers 2.01
+40 SAVEM"DSKMGR",60700,62799,60700
+
+
+Phil Wheeler [71266,125]
+Torrance, CA -- 12/9/86
