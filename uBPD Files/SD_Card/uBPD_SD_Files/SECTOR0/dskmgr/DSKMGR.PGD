@@ -1,0 +1,22 @@
+0 '"DM-PG.BA" DSKMGR patch for 0MENU       from P.G. Designs -- Phil Wheeler       [71266,125] --- 12/9/86
+1 'Works with DSKMGR vers 2.01 (old) or    vers. 3.02 (new)
+2 'Running this program creates a new      version of DSKMGR called DM-PG.CO.      When run it "unhooks" 0MENU, and at     exit it re-hooks 0MENU.
+3 'It also patches it to make ENTER go     to M100 menu (vs. saving a program).    Delete lines 26 and 32 to eliminate     this feature.
+4 '***YOU MUST HAVE 0MENU (vers 2.01)      IN PLACE TO USE THIS PROGRAM**
+6 'Start with DSKMGR.CO on your menu.      Then run this program.  After it is     finished do:                               SAVEM"DM-PG<",60675,60675,60675      to create a 7-byte calling program.
+8 'After saving DM-PG.CO & DM-PG<.CO to    disk, you can kill DSKMGR.CO,           DM-PG.CO & DM-PG.BA -- and run the      HIMEM-resident copy of DM-PG.CO via     the calling program.
+9 '
+10 CLEAR 0,60675:LOADM "DSKMGR"
+20 'poke exit to 0MENU
+22 IF PEEK(60710)=8 THEN 30
+24 POKE 60950,57:POKE 60951,128 'vers 3.02 exit patch
+26 POKE 60863,15:POKE 60864,238 'vers 3.02 ENTER = Menu patch
+28 GOTO 40
+30 POKE 60959,57:POKE 60960,128 'vers 2.01 exit patch
+32 POKE 60875,24:POKE 60876,128 'vers 2.01 ENTER = Menu patch
+40 'load new front end for DSKMGR
+50 FOR I = 0 TO 24
+60 READ A: POKE 60675+I,A: NEXT
+70 SAVEM"DM-PG",60675,62799,60675
+80 DATA 33,243,127,58,162,255,15,218,16,237,195,25,237
+90 DATA 34,12,251,34,12,251,34,228,250,34,224,250

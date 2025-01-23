@@ -1,0 +1,8 @@
+Follow the prompts on the portable.
+
+Then type the following in BASIC:
+
+  NEW
+  CLEAR 0,62200
+
+You can now exit BASIC and run TINY.CO from the main menu.
