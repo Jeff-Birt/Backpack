@@ -1,3 +1,0 @@
-Type the following in BASIC on the portable:
-
-  RUN "COM:9N81XN"
